@@ -12,14 +12,14 @@
  */
 
 import { graphql } from 'graphql';
-import { introspectionQuery, printSchema } from 'graphql/utilities';
+import { getIntrospectionQuery, printSchema } from 'graphql/utilities';
 import fs from 'fs';
 import path from 'path';
 
 import GraphQLSchema from '../src/schema';
 
 async function generateSchema(schema, relativePath) {
-  const result = await (graphql(schema, introspectionQuery));
+  const result = await graphql(schema, getIntrospectionQuery());
 
   if (result.errors) {
     console.error(
