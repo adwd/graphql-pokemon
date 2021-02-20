@@ -5,9 +5,7 @@ import {
   GraphQLList,
   GraphQLNonNull,
 } from 'graphql';
-import {
-  fromGlobalId,
-} from 'graphql-relay';
+import { fromGlobalId } from 'graphql-relay';
 
 import PokemonType from './PokemonType';
 
@@ -16,7 +14,6 @@ import {
   getPokemonById,
   getPokemonByName,
 } from '../service/Pokemon';
-
 
 const QueryType = new GraphQLObjectType({
   name: 'Query',
@@ -33,7 +30,7 @@ const QueryType = new GraphQLObjectType({
           type: new GraphQLNonNull(GraphQLInt),
         },
       },
-      resolve: async (obj, args) => await getPokemons(args),
+      resolve: (obj, args) => getPokemons(args),
     },
     pokemon: {
       type: PokemonType,
@@ -47,11 +44,11 @@ const QueryType = new GraphQLObjectType({
       },
       resolve: async (obj, { id, name }) => {
         if (id) {
-          return await getPokemonById(fromGlobalId(id).id);
+          return getPokemonById(fromGlobalId(id).id);
         }
 
         if (name) {
-          return await getPokemonByName(name);
+          return getPokemonByName(name);
         }
 
         throw new Error(
