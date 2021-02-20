@@ -16,6 +16,7 @@
   "devDependencies": {
     "@babel/cli": "^7.12.17",
     "@babel/core": "^7.12.17",
+    "@babel/preset-env": "^7.12.17",
     "@babel/preset-typescript": "^7.12.17",
     "@cybozu/eslint-config": "^11.0.4",
     "@types/graphql-relay": "^0.6.0",
@@ -39,7 +40,8 @@
   "repository": "https://github.com/lucasbento/graphql-pokemon",
   "scripts": {
     "eslint": "eslint src scripts --ext .js --ext .ts",
-    "build": "rm -rf dist/* && babel src --out-dir dist --copy-files",
+    "build": "rm -rf dist/* && babel src -d dist --extensions '.ts' --copy-files",
+    "build:types": "tsc --emitDeclarationOnly --outDir dist",
     "build-schema": "ts-node ./scripts/buildSchema.ts",
     "start": "node dist/index.js",
     "watch": "nodemon src/index.ts"
