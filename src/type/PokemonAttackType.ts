@@ -1,45 +1,37 @@
-import {
-  GraphQLObjectType,
-  GraphQLString,
-  GraphQLList,
-  GraphQLInt,
-} from 'graphql';
+import { list, objectType } from 'nexus';
 
-const AttackType = new GraphQLObjectType({
+export const AttackType = objectType({
   name: 'Attack',
-  description: 'Represents a Pokémon\'s attack types',
-  fields: {
-    name: {
-      type: GraphQLString,
+  description: "Represents a Pokémon's attack types",
+  definition(t) {
+    t.string('name', {
       description: 'The name of this Pokémon attack',
-      resolve: obj => obj.name,
-    },
-    type: {
-      type: GraphQLString,
+      resolve: obj => obj.name
+    });
+    t.string('type', {
       description: 'The type of this Pokémon attack',
-      resolve: obj => obj.type,
-    },
-    damage: {
-      type: GraphQLInt,
+      resolve: obj => obj.type
+    });
+    t.int('damage', {
       description: 'The damage of this Pokémon attack',
-      resolve: obj => obj.damage,
-    },
-  },
+      resolve: obj => obj.damage
+    });
+  }
 });
 
-export default new GraphQLObjectType({
+export const PokemonAttack = objectType({
   name: 'PokemonAttack',
-  description: 'Represents a Pokémon\'s attack types',
-  fields: () => ({
-    fast: {
-      type: new GraphQLList(AttackType),
+  description: "Represents a Pokémon's attack types",
+  definition(t) {
+    t.field('fast', {
+      type: list(AttackType),
       description: 'The fast attacks of this Pokémon',
-      resolve: obj => obj.fast,
-    },
-    special: {
-      type: new GraphQLList(AttackType),
+      resolve: obj => obj.fast
+    });
+    t.field('special', {
+      type: list(AttackType),
       description: 'The special attacks of this Pokémon',
-      resolve: obj => obj.special,
-    },
-  }),
+      resolve: obj => obj.special
+    });
+  }
 });

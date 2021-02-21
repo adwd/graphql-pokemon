@@ -1,46 +1,27 @@
-import {
-  GraphQLObjectType,
-  GraphQLInt,
-  GraphQLString,
-  GraphQLList,
-  GraphQLNonNull,
-} from 'graphql';
 import { fromGlobalId } from 'graphql-relay';
-
-import PokemonType from './PokemonType';
-
+import { intArg, list, nonNull, queryType, stringArg } from 'nexus';
 import {
-  getPokemons,
   getPokemonById,
   getPokemonByName,
+  getPokemons
 } from '../service/Pokemon';
+import { PokemonType } from './PokemonType';
 
-const QueryType = new GraphQLObjectType({
-  name: 'Query',
+export const Query = queryType({
   description: 'Query any Pokémon by number or name',
-  fields: () => ({
-    query: {
-      type: QueryType,
-      resolve: (...args) => args,
-    },
-    pokemons: {
-      type: new GraphQLList(PokemonType),
+  definition(t) {
+    t.field('pokemons', {
+      type: list(PokemonType),
       args: {
-        first: {
-          type: new GraphQLNonNull(GraphQLInt),
-        },
+        first: nonNull(intArg())
       },
-      resolve: (obj, args) => getPokemons(args),
-    },
-    pokemon: {
+      resolve: (obj, args) => getPokemons(args)
+    });
+    t.field('pokemon', {
       type: PokemonType,
       args: {
-        id: {
-          type: GraphQLString,
-        },
-        name: {
-          type: GraphQLString,
-        },
+        id: stringArg(),
+        name: stringArg()
       },
       resolve: async (obj, { id, name }) => {
         if (id) {
@@ -54,9 +35,7 @@ const QueryType = new GraphQLObjectType({
         throw new Error(
           'You need to specify either the ID or name of the Pokémon'
         );
-      },
-    },
-  }),
+      }
+    });
+  }
 });
-
-export default QueryType;

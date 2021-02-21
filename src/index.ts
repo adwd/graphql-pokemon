@@ -1,5 +1,5 @@
 import { ApolloServer } from 'apollo-server';
-import schema from './schema';
+import { schema } from './schema';
 
 const server = new ApolloServer({ schema });
 const PORT = 5000;

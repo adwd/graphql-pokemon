@@ -1,9 +1,7 @@
-import { GraphQLSchema } from 'graphql';
+import { makeSchema } from 'nexus';
+import { PokemonType } from './type/PokemonType';
+import { Query } from './type/QueryType';
 
-import QueryType from './type/QueryType';
-
-const schema = new GraphQLSchema({
-  query: QueryType,
+export const schema = makeSchema({
+  types: [PokemonType, [], { Query }]
 });
-
-export default schema;
